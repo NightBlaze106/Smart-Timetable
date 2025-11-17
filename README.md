@@ -1,16 +1,89 @@
-# React + Vite
+# Smart Timetable – AI Timetable Generator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An intelligent timetable generation system built with FastAPI, Supabase, and a custom scheduling engine. Automates class scheduling using teacher availability, subject hours, and constraint-based optimization.
 
-Currently, two official plugins are available:
+## Features
+- Automatic timetable generation
+- Teacher/subject/hour management
+- Hard constraints (no clashes, correct hour limits)
+- Soft constraints (gaps, consecutive periods, afternoon balance)
+- Supabase Postgres + Auth integration
+- Clean REST API with FastAPI
+- Modular backend structure
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech Stack
+- Python + FastAPI
+- Supabase Postgres
+- Supabase Auth
+- Uvicorn
+- React (frontend WIP)
 
-## React Compiler
+## Folder Structure
+ai-timetable/
+├── timetable-backend/
+│   ├── main.py
+│   ├── routers/
+│   ├── services/
+│   ├── core/
+│   ├── models/
+│   ├── utils/
+│   ├── .env
+│   └── requirements.txt
+└── timetable-frontend/ (WIP)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Setup
 
-## Expanding the ESLint configuration
+### 1. Clone
+    git clone https://github.com/NightBlaze106/Smart-Timetable.git
+    cd Smart-Timetable/ai-timetable/timetable-backend
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 2. Virtual Environment
+    python -m venv .venv
+    .\.venv\Scripts\activate
+
+### 3. Install Dependencies
+    pip install -r requirements.txt
+
+### 4. Environment Variables
+Create `.env` inside timetable-backend:
+
+    SUPABASE_URL=your-url
+    SUPABASE_SERVICE_ROLE_KEY=your-key
+    HOST=0.0.0.0
+    PORT=8000
+
+### 5. Run Server
+    uvicorn main:app --reload
+
+API Docs:  
+http://localhost:8000/docs
+
+## Timetable Engine (Overview)
+
+### Hard Constraints
+- Teacher cannot handle two classes at the same time
+- Class cannot have more than one subject in a slot
+- Subject hours must fit available slots
+- Teacher hour limits enforced
+
+### Soft Constraints
+- Penalize gaps
+- Penalize long consecutive classes
+- Encourage balanced morning/afternoon distribution
+- Improve overall timetable score
+
+## Security
+- `.env`, `.venv`, and `__pycache__` are ignored
+- Supabase keys must never be committed
+- Regenerate keys if leaked
+
+## Roadmap
+- React admin dashboard
+- Teacher portal
+- Student timetable view
+- Export to PDF/Excel
+- Notifications
+- Deployment (Render/Supabase Edge)
+
+## License
+MIT License.
